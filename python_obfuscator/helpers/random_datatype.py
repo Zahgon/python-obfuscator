@@ -25,10 +25,7 @@ class RandomDataTypeGenerator:
 
     def random_string(self, length: int = 79) -> str:
         # 79 chars: see https://stackoverflow.com/a/16920876/11472374
-        return "".join(
-            self._rng.choice(string.ascii_lowercase + string.ascii_uppercase)
-            for _ in range(length)
-        )
+        pass
 
     def random_int(self) -> int:
-        return self._rng.randint(self._rng.randint(0, 300), self._rng.randint(300, 999))
+        pass

@@ -14,14 +14,7 @@ DEFAULT_OUTPUT_DIR = "obfuscated"
 
 def _resolved_output_path(input_path: Path) -> Path:
     """Write under ./obfuscated/, preserving path relative to cwd when possible."""
-    cwd = Path.cwd().resolve()
-    try:
-        rel = input_path.resolve().relative_to(cwd)
-    except ValueError:
-        rel = Path(input_path.name)
-    out = cwd / DEFAULT_OUTPUT_DIR / rel
-    out.parent.mkdir(parents=True, exist_ok=True)
-    return out
+    pass
 
 
 def main(
@@ -56,24 +49,8 @@ def main(
         ),
     ] = [],
 ) -> None:
-    resolved = input_path.expanduser().resolve()
-
-    config = ObfuscationConfig.all_enabled().without(*disable)
-    obfuscator = Obfuscator(config)
-
-    data = resolved.read_text()
-    obfuscated_data = obfuscator.obfuscate(data)
-
-    if stdout:
-        typer.echo(obfuscated_data)
-    else:
-        out_path = _resolved_output_path(resolved)
-        out_path.write_text(obfuscated_data)
-        typer.secho(f"Wrote {out_path}", err=True)
+    pass
 
 
 def cli() -> None:
-    if len(sys.argv) == 2 and sys.argv[1] in ("--version", "-V"):
-        typer.echo(__version__)
-        raise SystemExit(0)
-    typer.run(main)
+    pass

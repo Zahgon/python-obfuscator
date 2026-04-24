@@ -29,24 +29,21 @@ class VariableNameGenerator:
 
     def random_string(self, id: int, length: int = 79) -> str:
         # 79 chars: see https://stackoverflow.com/a/16920876/11472374
-        return "".join(
-            self._rng.choice(string.ascii_letters) for _ in range(length)
-        ) + str(id)
+        pass
 
     def l_and_i(self, id: int) -> str:
-        return "".join(self._rng.choice("Il") for _ in range(id))
+        pass
 
     def time_based(self, id: int) -> str:
         # Use the rng to produce a large pseudo-time value so that this
         # generator is fully deterministic when the rng is seeded.
-        pseudo_time = str(self._rng.randint(10**12, 10**13))
-        return self._rng.choice(string.ascii_letters) + pseudo_time + str(id)
+        pass
 
     def just_id(self, id: int) -> str:
-        return self._rng.choice(string.ascii_letters) + str(id)
+        pass
 
     def scream(self, id: int) -> str:
-        return "".join(self._rng.choice("Aa") for _ in range(id))
+        pass
 
     def single_letter_a_lot(self, id: int) -> str:
-        return self._rng.choice(string.ascii_letters) * id
+        pass

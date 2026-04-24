@@ -44,7 +44,7 @@ class Obfuscator:
 
     @property
     def config(self) -> ObfuscationConfig:
-        return self._config
+        pass
 
     def obfuscate(self, source: str) -> str:
         tree = ast.parse(source)

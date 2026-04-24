@@ -48,9 +48,7 @@ class StringHexEncoder(ASTTransform):
     )
 
     def visit_Constant(self, node: ast.Constant) -> ast.AST:
-        if not isinstance(node.value, str):
-            return node
-        return ast.copy_location(_str_to_hex_call(node.value), node)
+        pass
 
     def visit_JoinedStr(self, node: ast.JoinedStr) -> ast.JoinedStr:
         # f-strings embed Constant nodes for their literal parts, but the
@@ -59,4 +57,4 @@ class StringHexEncoder(ASTTransform):
         # skip f-strings entirely.
         # TODO: we could split this out to a new technique in the future.
         # consider also over-doing f strings wiht some random strings/args places around
-        return node
+        pass

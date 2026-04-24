@@ -32,11 +32,7 @@ class ObfuscationConfig:
         return cls(enabled_techniques=frozenset(names))
 
     def without(self, *names: str) -> ObfuscationConfig:
-        return ObfuscationConfig(
-            enabled_techniques=self.enabled_techniques - frozenset(names)
-        )
+        pass
 
     def with_added(self, *names: str) -> ObfuscationConfig:
-        return ObfuscationConfig(
-            enabled_techniques=self.enabled_techniques | frozenset(names)
-        )
+        pass

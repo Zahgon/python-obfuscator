@@ -34,14 +34,7 @@ class _NameCollector(ast.NodeVisitor):
 
     @property
     def renameable(self) -> frozenset[str]:
-        return frozenset(
-            name
-            for name in self._assigned
-            if name not in _BUILTIN_NAMES
-            and name not in self._imported
-            and not _DUNDER_RE.match(name)
-            and name not in self._attr_accessed
-        )
+        pass
 
     @property
     def all_bound_names(self) -> frozenset[str]:
@@ -50,47 +43,34 @@ class _NameCollector(ast.NodeVisitor):
         Use this as the exclusion set when generating junk names so that
         injected variables never shadow real ones.
         """
-        return frozenset(self._assigned) | frozenset(self._imported) | _BUILTIN_NAMES
+        pass
 
     def visit_Import(self, node: ast.Import) -> None:
-        for alias in node.names:
-            bound = alias.asname or alias.name.split(".")[0]
-            self._imported.add(bound)
-        self.generic_visit(node)
+        pass
 
     def visit_ImportFrom(self, node: ast.ImportFrom) -> None:
-        for alias in node.names:
-            if alias.name == "*":
-                continue  # can't know statically what names are introduced
-            bound = alias.asname or alias.name
-            self._imported.add(bound)
-        self.generic_visit(node)
+        pass
 
     def visit_Name(self, node: ast.Name) -> None:
-        if isinstance(node.ctx, ast.Store):
-            self._assigned.add(node.id)
+        pass
 
     def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
-        self._assigned.add(node.name)
-        self.generic_visit(node)
+        pass
 
     def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:
-        self._assigned.add(node.name)
-        self.generic_visit(node)
+        pass
 
     def visit_ClassDef(self, node: ast.ClassDef) -> None:
-        self._assigned.add(node.name)
-        self.generic_visit(node)
+        pass
 
     def visit_Attribute(self, node: ast.Attribute) -> None:
         # Attribute names (obj.name) are stored as bare strings in the AST.
         # We cannot update call sites without full type analysis, so any name
         # that appears as an attribute accessor is excluded from renaming.
-        self._attr_accessed.add(node.attr)
-        self.generic_visit(node)
+        pass
 
     def visit_arg(self, node: ast.arg) -> None:
-        self._assigned.add(node.arg)
+        pass
         # Do not recurse: we intentionally skip renaming annotation names
 
 
@@ -126,39 +106,24 @@ class VariableRenamer(ASTTransform):
         return super().apply(tree)
 
     def visit_Name(self, node: ast.Name) -> ast.Name:
-        if node.id in self._rename_map:
-            node.id = self._rename_map[node.id]
-        return node
+        pass
 
     def visit_FunctionDef(self, node: ast.FunctionDef) -> ast.FunctionDef:
-        if node.name in self._rename_map:
-            node.name = self._rename_map[node.name]
-        self.generic_visit(node)
-        return node
+        pass
 
     def visit_AsyncFunctionDef(
         self, node: ast.AsyncFunctionDef
     ) -> ast.AsyncFunctionDef:
-        if node.name in self._rename_map:
-            node.name = self._rename_map[node.name]
-        self.generic_visit(node)
-        return node
+        pass
 
     def visit_ClassDef(self, node: ast.ClassDef) -> ast.ClassDef:
-        if node.name in self._rename_map:
-            node.name = self._rename_map[node.name]
-        self.generic_visit(node)
-        return node
+        pass
 
     def visit_arg(self, node: ast.arg) -> ast.arg:
-        if node.arg in self._rename_map:
-            node.arg = self._rename_map[node.arg]
-        return node
+        pass
 
     def visit_Nonlocal(self, node: ast.Nonlocal) -> ast.Nonlocal:
-        node.names = [self._rename_map.get(n, n) for n in node.names]
-        return node
+        pass
 
     def visit_Global(self, node: ast.Global) -> ast.Global:
-        node.names = [self._rename_map.get(n, n) for n in node.names]
-        return node
+        pass
